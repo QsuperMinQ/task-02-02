@@ -15,12 +15,19 @@ module.exports = {
       },
       {
         test: /.js$/,
+        exclude:/node_modules/,
         use: {
           loader: 'babel-loader',
           options: {
             presets: ['@babel/preset-env']
           }
         }
+      },
+      {
+        test:/\.(js|vue)$/,
+        use: 'eslint-loader',
+        exclude: /node_modules/,
+        enforce: 'pre'
       },
       {
         test: /\.less$/,
@@ -34,7 +41,16 @@ module.exports = {
       // 以及 `.vue` 文件中的 `<style>` 块
       {
         test: /\.css$/,
-        use: ['vue-style-loader', 'css-loader']
+        use: ['style-loader', 'css-loader']
+        // use: [
+        //   {loader: 'vue-style-loader'},
+        //   {
+        //     loader: 'css-loader',
+        //     options:{
+        //       esModule: false
+        //     }
+        //   }
+        // ]
       },
       {
         test:/\.(png|jpe?g|gif)$/,
@@ -42,7 +58,8 @@ module.exports = {
           loader: 'file-loader',
           options:{
             outputPath: 'img',
-            name: '[name].[ext]'
+            name: '[name].[ext]',
+            esModule: false
           }
         }
       }
